@@ -16,14 +16,12 @@
 #define ADSR_D_SAMPLE_COUNT 480
 #define ADSR_R_SAMPLE_COUNT 8640
 #define ADSR_A_STEP 0.002087682672223382f
-#define ADSR_D_STEP -0.001461377870564f
-#define ADSR_R_STEP -0.000034722222222f
+#define ADSR_D_STEP 0.001461377870564f
+#define ADSR_R_STEP 0.000034722222222f
 #define GAIN 10000
 
 short sampleIndex = 0;
-float attack = 0.0f;
-float decay = 0.0f;
-float release = 0.0f;
+float adsr = 0.0f;
 
 short filter(float sample, short sampleIndex)
 {
@@ -32,20 +30,20 @@ short filter(float sample, short sampleIndex)
     // Apply ADSR envelope
     if (sampleIndex < ADSR_A_SAMPLE_COUNT)
     {
-        filteredSample *= attack;
-        attack += ADSR_A_STEP;
+        filteredSample *= adsr;
+        adsr += ADSR_A_STEP;
     }
     else if (sampleIndex >= ADSR_A_SAMPLE_COUNT
             && sampleIndex < ADSR_A_SAMPLE_COUNT + ADSR_D_SAMPLE_COUNT)
     {
-        filteredSample *= decay;
-        decay += ADSR_D_STEP;
+        filteredSample *= adsr;
+        adsr -= ADSR_D_STEP;
     }
     else if (sampleIndex >= ADSR_A_SAMPLE_COUNT + ADSR_D_SAMPLE_COUNT
             && sampleIndex < SAMPLE_COUNT)
     {
-        filteredSample *= release;
-        release += ADSR_R_STEP;
+        filteredSample *= adsr;
+        adsr -= ADSR_R_STEP;
     }
 
     // Apply gain
@@ -67,13 +65,11 @@ short filter(float sample, short sampleIndex)
 void playGunshot()
 {
     // Reset parameters
-    attack = 0.0f;
-    decay = 0.0f;
-    release = 0.0f;
+    adsr = 0.0f;
 
     for (sampleIndex = 0; sampleIndex < SAMPLE_COUNT; sampleIndex++)
     {
-        float sample = -1 + 2 * (float) rand() / RAND_MAX;
+        float sample = -1 + 2 * (float) rand() / RAND_MAX; // Random number between -1 and 1
         output_left_sample(filter(sample, sampleIndex));
     }
 }
