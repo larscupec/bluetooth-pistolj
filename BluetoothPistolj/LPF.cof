@@ -1,0 +1,37 @@
+// LPF.cof
+// This file contains the filter coefficients for different LPFs
+
+#ifndef LPF_COF_
+#define LPF_COF_
+
+#define NUM_SECTIONS 1
+
+// LPF w/ cutoff @ 1000 Hz
+float b_1000[NUM_SECTIONS][3] = { 
+{1.44014403E-02, 2.88028807E-02, 1.44014403E-02} };
+
+float a_1000[NUM_SECTIONS][2] = { 
+{-1.63299316E+00, 6.90598923E-01} };
+
+// LPF w/ cutoff @ 700 Hz
+float b_700[NUM_SECTIONS][3] = { 
+{7.41681555E-03, 1.48336311E-02, 7.41681555E-03} };
+
+float a_700[NUM_SECTIONS][2] = { 
+{-1.74203166E+00, 7.71698920E-01} };
+
+// LPF w/ cutoff @ 400 Hz
+float b_400[NUM_SECTIONS][3] = { 
+{2.55053516E-03, 5.10107032E-03, 2.55053516E-03} };
+
+float a_400[NUM_SECTIONS][2] = { 
+{-1.85214649E+00, 8.62348626E-01} };
+
+// LPF w/ cutoff @ 100 Hz
+float b_100[NUM_SECTIONS][3] = { 
+{1.68223709E-04, 3.36447417E-04, 1.68223709E-04} };
+
+float a_100[NUM_SECTIONS][2] = { 
+{-1.96298009E+00, 9.63652984E-01} };
+
+#endif /* LPF_COF_ */

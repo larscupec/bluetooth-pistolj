@@ -8,11 +8,11 @@
 #ifndef IIRSOS_H_
 #define IIRSOS_H_
 
-#include "LPF_1000.cof"
+#include "LPF.cof"
 
 float w[NUM_SECTIONS][2] = { 0 };
 
-float iirsos(float input)
+float iirsos(float input, float a[NUM_SECTIONS][2], float b[NUM_SECTIONS][3])
 {
     int section; //index for section number
     float wn, yn; //intermediate and output values in each stage

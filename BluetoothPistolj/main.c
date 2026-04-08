@@ -31,7 +31,7 @@ void main(void)
         if (DSK6713_DIP_get(0) == 0)
         {
             DSK6713_LED_on(0);
-            playGunshot();
+            playGunshot(GUNSHOT_MODE_1);
             DSK6713_LED_off(0);
         }
     }
