@@ -18,7 +18,7 @@
 #define ADSR_A_STEP 0.002087682672223382f
 #define ADSR_D_STEP 0.001461377870564f
 #define ADSR_R_STEP 0.000034722222222f
-#define GAIN 10000
+#define GAIN 30000
 #define GUNSHOT_MODE_1 0
 #define GUNSHOT_MODE_2 1
 #define GUNSHOT_MODE_3 2
@@ -26,6 +26,7 @@
 
 short sampleIndex = 0;
 float adsr = 0.0f;
+short playedSound = FALSE;
 
 short filter(float sample, short sampleIndex, short mode)
 {
@@ -81,16 +82,26 @@ short filter(float sample, short sampleIndex, short mode)
     return (short) filteredSample;
 }
 
-void playGunshot(short mode)
+void playGunshot(short mode, short playOnce)
 {
-    // Reset parameters
+    if (playOnce && playedSound)
+    {
+        return;
+    }
+
     adsr = 0.0f;
 
-    for (sampleIndex = 0; sampleIndex < SAMPLE_COUNT; sampleIndex++)
+    DSK6713_LED_on(0);
+
+    for (sampleIndex = 0; sampleIndex < (playOnce ? SAMPLE_COUNT : SAMPLE_COUNT / 2); sampleIndex++)
     {
         float sample = -1 + 2 * (float) rand() / RAND_MAX; // Random number between -1 and 1
         output_left_sample(filter(sample, sampleIndex, mode));
     }
+
+    DSK6713_LED_off(0);
+
+    playedSound = TRUE;
 }
 
 #endif /* GUNSHOT_H_ */
