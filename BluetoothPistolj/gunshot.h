@@ -92,7 +92,14 @@ void playGunshot(short mode, short playOnce)
         float sample = -1 + 2 * (float) rand() / RAND_MAX; // Random number between -1 and 1
         short filteredSample = filter(sample, sampleIndex, mode);
 
-        output_left_sample();
+        // Da bi koristili oba zvucnika moramo kopirati vrijednosti na dvaput
+        // u 32-bit broj.
+        // npr. left = 7fff, right = 7fff --> stereo = 7fff 7fff
+        int outputData = filteredSample | ((int) filteredSample << 16);
+
+        // Ovo je jos uvijek mono, jer se isti zvuk pusta iz oba zvucnika.
+
+        output_sample(outputData);
     }
 
     DSK6713_LED_off(0);

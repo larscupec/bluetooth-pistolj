@@ -97,7 +97,7 @@ void main(void)
             // MOD=4, RAF=1
             break;
         case 15:
-            // MOD=3, RAF=0
+            // MOD=4, RAF=0
         }
     }
 }
