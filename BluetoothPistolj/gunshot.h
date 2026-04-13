@@ -21,8 +21,6 @@
 #define GAIN 30000
 #define GUNSHOT_MODE_1 0
 #define GUNSHOT_MODE_2 1
-#define GUNSHOT_MODE_3 2
-#define GUNSHOT_MODE_4 3
 
 short sampleIndex = 0;
 float adsr = 0.0f;
@@ -38,13 +36,9 @@ short filter(float sample, short sampleIndex, short mode)
         filteredSample = iirsos(sample, a_1000, b_1000);
         break;
     case GUNSHOT_MODE_2:
-        filteredSample = iirsos(sample, a_700, b_700);
-        break;
-    case GUNSHOT_MODE_3:
-        filteredSample = iirsos(sample, a_400, b_400);
-        break;
-    case GUNSHOT_MODE_4:
-        filteredSample = iirsos(sample, a_100, b_100);
+        filteredSample = iirsos(sample, a_500, b_500);
+    default:
+        return (short) filteredSample;
     }
 
     // Apply ADSR envelope
@@ -96,7 +90,9 @@ void playGunshot(short mode, short playOnce)
     for (sampleIndex = 0; sampleIndex < (playOnce ? SAMPLE_COUNT : SAMPLE_COUNT / 2); sampleIndex++)
     {
         float sample = -1 + 2 * (float) rand() / RAND_MAX; // Random number between -1 and 1
-        output_left_sample(filter(sample, sampleIndex, mode));
+        short filteredSample = filter(sample, sampleIndex, mode);
+
+        output_left_sample();
     }
 
     DSK6713_LED_off(0);

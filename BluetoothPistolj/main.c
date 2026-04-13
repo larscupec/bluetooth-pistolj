@@ -40,11 +40,11 @@ void main(void)
     {
         unsigned int pistolState = GPIO_read(hGpio, statePins);
 
-        int i;
-        for (i = 0; i < 8; i++)
-        {
-            pistolState >>= 1;
-        }
+        // Buduci da funkcija GPIO_read vraca stanje registra koje izgleda
+        // npr. 1111 0000 0000, moramo pomaknuti bitove 8-11 na pocetak
+        // tako da ih shiftamo osam puta u desno da bi dobili zeljena
+        // stanja pistolja.
+        pistolState >>= 8;
 
         /* Pistol States:
 
@@ -88,17 +88,16 @@ void main(void)
             playGunshot(GUNSHOT_MODE_2, FALSE);
             break;
         case 9:
-            playGunshot(GUNSHOT_MODE_3, TRUE);
+            // MOD=3, RAF=1
             break;
         case 11:
-            playGunshot(GUNSHOT_MODE_3, FALSE);
+            // MOD=3, RAF=0
             break;
         case 13:
-            playGunshot(GUNSHOT_MODE_4, TRUE);
+            // MOD=4, RAF=1
             break;
         case 15:
-            playGunshot(GUNSHOT_MODE_4, FALSE);
-            break;
+            // MOD=3, RAF=0
         }
     }
 }
