@@ -10,36 +10,27 @@
 
 #include <limits.h>
 #include "iirsos.h"
+#include "play.h"
 
-#define SAMPLE_COUNT 9600
+#define GUNSHOT_SAMPLE_COUNT 9600
 #define ADSR_A_SAMPLE_COUNT 480
 #define ADSR_D_SAMPLE_COUNT 480
 #define ADSR_R_SAMPLE_COUNT 8640
-#define ADSR_A_STEP 0.002087682672223382f
-#define ADSR_D_STEP 0.001461377870564f
-#define ADSR_R_STEP 0.000034722222222f
-#define GAIN 30000
-#define GUNSHOT_MODE_1 0
-#define GUNSHOT_MODE_2 1
+#define ADSR_A_STEP 0.002087682672223382
+#define ADSR_D_STEP 0.001461377870564
+#define ADSR_R_STEP 0.000034722222222
 
-short sampleIndex = 0;
 float adsr = 0.0f;
-short playedSound = FALSE;
+IIRFilter LPF_1000 = {a_1000, b_1000, NULL};
+IIRFilter LPF_500 = {a_500, b_500, NULL};
 
-short filter(float sample, short sampleIndex, short mode)
+float gunshot(IIRFilter* filter, int sampleIndex)
 {
-    float filteredSample = 0.0f;
+    // Random number between -1 and 1
+    float sample = -1 + 2 * (float) rand() / RAND_MAX;
 
-    switch (mode)
-    {
-    case GUNSHOT_MODE_1:
-        filteredSample = iirsos(sample, a_1000, b_1000);
-        break;
-    case GUNSHOT_MODE_2:
-        filteredSample = iirsos(sample, a_500, b_500);
-    default:
-        return (short) filteredSample;
-    }
+    // Apply LPF
+    float filteredSample = iirsos(sample, filter);
 
     // Apply ADSR envelope
     if (sampleIndex < ADSR_A_SAMPLE_COUNT)
@@ -54,57 +45,29 @@ short filter(float sample, short sampleIndex, short mode)
         adsr -= ADSR_D_STEP;
     }
     else if (sampleIndex >= ADSR_A_SAMPLE_COUNT + ADSR_D_SAMPLE_COUNT
-            && sampleIndex < SAMPLE_COUNT)
+            && sampleIndex < GUNSHOT_SAMPLE_COUNT)
     {
         filteredSample *= adsr;
         adsr -= ADSR_R_STEP;
     }
 
-    // Apply gain
-    filteredSample *= GAIN;
-
-    // Clip peaks
-    if (filteredSample > (float) SHRT_MAX)
+    // Reset ADSR
+    if (sampleIndex == GUNSHOT_SAMPLE_COUNT - 1)
     {
-        filteredSample = (float) SHRT_MAX;
-    }
-    else if (filteredSample < (float) SHRT_MIN)
-    {
-        filteredSample = (float) SHRT_MIN;
+        adsr = 0.0f;
     }
 
-    return (short) filteredSample;
+    return filteredSample;
 }
 
-void playGunshot(short mode, short playOnce)
+float gunshotA(int sampleIndex)
 {
-    if (playOnce && playedSound)
-    {
-        return;
-    }
+    return gunshot(&LPF_1000, sampleIndex);
+}
 
-    adsr = 0.0f;
-
-    DSK6713_LED_on(0);
-
-    for (sampleIndex = 0; sampleIndex < (playOnce ? SAMPLE_COUNT : SAMPLE_COUNT / 2); sampleIndex++)
-    {
-        float sample = -1 + 2 * (float) rand() / RAND_MAX; // Random number between -1 and 1
-        short filteredSample = filter(sample, sampleIndex, mode);
-
-        // Da bi koristili oba zvucnika moramo kopirati vrijednosti na dvaput
-        // u 32-bit broj.
-        // npr. left = 7fff, right = 7fff --> stereo = 7fff 7fff
-        int outputData = filteredSample | ((int) filteredSample << 16);
-
-        // Ovo je jos uvijek mono, jer se isti zvuk pusta iz oba zvucnika.
-
-        output_sample(outputData);
-    }
-
-    DSK6713_LED_off(0);
-
-    playedSound = TRUE;
+float gunshotB(int sampleIndex)
+{
+    return gunshot(&LPF_500, sampleIndex);
 }
 
 #endif /* GUNSHOT_H_ */

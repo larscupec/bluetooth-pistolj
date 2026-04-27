@@ -9,8 +9,9 @@
 /* Standard C libs */
 #include <stdlib.h>
 #include <time.h>
-/* gunshot sound effect */
+/* sound effects */
 #include "gunshot.h"
+#include "laser.h"
 
 Uint32 fs = DSK6713_AIC23_FREQ_24KHZ;
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -25,6 +26,7 @@ GPIO_Config GPIOCfg = { 0x00000000, /* gpgc */
                         0x00000000 /* gppol */
 };
 const unsigned int statePins = GPIO_PIN8 | GPIO_PIN9 | GPIO_PIN10 | GPIO_PIN11;
+const int SAMPLE_RATE = 24000;
 
 void main(void)
 {
@@ -46,8 +48,9 @@ void main(void)
         // stanja pistolja.
         pistolState >>= 8;
 
-        /* Pistol States:
-
+        /*
+         * Pistol States:
+         *
          *  0 - MOD=1,RAF=0,TRIG=0
          *  1 - MOD=1,RAF=0,TRIG=1
          *  2 - MOD=1,RAF=1,TRIG=0
@@ -66,8 +69,8 @@ void main(void)
          * 12 - MOD=4,RAF=0,TRIG=0
          * 13 - MOD=4,RAF=0,TRIG=1
          * 14 - MOD=4,RAF=1,TRIG=0
-         * 15 - MOD=5,RAF=1,TRIG=1
-
+         * 15 - MOD=4,RAF=1,TRIG=1
+         *
          */
 
         switch (pistolState)
@@ -76,28 +79,28 @@ void main(void)
             playedSound = FALSE;
             break;
         case 1:
-            playGunshot(GUNSHOT_MODE_1, TRUE);
+            play(gunshotA, GUNSHOT_SAMPLE_COUNT, FALSE);
             break;
         case 3:
-            playGunshot(GUNSHOT_MODE_1, FALSE);
+            play(gunshotA, GUNSHOT_SAMPLE_COUNT, TRUE);
             break;
         case 5:
-            playGunshot(GUNSHOT_MODE_2, TRUE);
+            play(gunshotB, GUNSHOT_SAMPLE_COUNT, FALSE);
             break;
         case 7:
-            playGunshot(GUNSHOT_MODE_2, FALSE);
+            play(gunshotB, GUNSHOT_SAMPLE_COUNT, TRUE);
             break;
         case 9:
-            // MOD=3, RAF=1
+            play(laserA, LASER_SAMPLE_COUNT, FALSE);
             break;
         case 11:
-            // MOD=3, RAF=0
+            play(laserA, LASER_SAMPLE_COUNT, TRUE);
             break;
         case 13:
-            // MOD=4, RAF=1
+            play(laserB, LASER_SAMPLE_COUNT, FALSE);
             break;
         case 15:
-            // MOD=4, RAF=0
+            play(laserB, LASER_SAMPLE_COUNT, TRUE);
         }
     }
 }

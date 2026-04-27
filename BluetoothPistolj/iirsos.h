@@ -10,21 +10,25 @@
 
 #include "LPF.cof"
 
-float w[NUM_SECTIONS][2] = { 0 };
+typedef struct {
+    float (*a)[2];
+    float (*b)[3];
+    float (*w)[2];
+} IIRFilter;
 
-float iirsos(float input, float a[NUM_SECTIONS][2], float b[NUM_SECTIONS][3])
+float iirsos(float input, IIRFilter* filter)
 {
     int section; //index for section number
     float wn, yn; //intermediate and output values in each stage
 
     for (section = 0; section < NUM_SECTIONS; section++)
     {
-        wn = input - a[section][0] * w[section][0]
-                - a[section][1] * w[section][1];
-        yn = b[section][0] * wn + b[section][1] * w[section][0]
-                + b[section][2] * w[section][1];
-        w[section][1] = w[section][0];
-        w[section][0] = wn;
+        wn = input - filter->a[section][0] * filter->w[section][0]
+                - filter->a[section][1] * filter->w[section][1];
+        yn = filter->b[section][0] * wn + filter->b[section][1] * filter->w[section][0]
+                + filter->b[section][2] * filter->w[section][1];
+        filter->w[section][1] = filter->w[section][0];
+        filter->w[section][0] = wn;
         input = yn; //output of current section will be input to next
     }
 
