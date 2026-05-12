@@ -10,8 +10,9 @@
 #include <stdlib.h>
 #include <time.h>
 /* sound effects */
-#include "gunshot.h"
-#include "laser.h"
+#include <include/gunshot.h>
+#include <include/laser.h>
+#include <include/play.h>
 
 Uint32 fs = DSK6713_AIC23_FREQ_24KHZ;
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -27,6 +28,7 @@ GPIO_Config GPIOCfg = { 0x00000000, /* gpgc */
 };
 const unsigned int statePins = GPIO_PIN8 | GPIO_PIN9 | GPIO_PIN10 | GPIO_PIN11;
 const int SAMPLE_RATE = 24000;
+int playedSound = FALSE;
 
 void main(void)
 {

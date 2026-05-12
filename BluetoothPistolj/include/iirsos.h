@@ -5,15 +5,15 @@
  *      Author: lars
  */
 
-#ifndef IIRSOS_H_
-#define IIRSOS_H_
+#ifndef INCLUDE_IIRSOS_H_
+#define INCLUDE_IIRSOS_H_
 
-#include "LPF.cof"
+#define NUM_SECTIONS 1
 
 typedef struct {
-    float (*a)[2];
-    float (*b)[3];
-    float (*w)[2];
+    float a[NUM_SECTIONS][2];
+    float b[NUM_SECTIONS][3];
+    float w[NUM_SECTIONS][2];
 } IIRFilter;
 
 float iirsos(float input, IIRFilter* filter)
@@ -35,4 +35,4 @@ float iirsos(float input, IIRFilter* filter)
     return yn;
 }
 
-#endif /* IIRSOS_H_ */
+#endif /* INCLUDE_IIRSOS_H_ */

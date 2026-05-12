@@ -1,17 +1,19 @@
 /*
- * play.h
+ * play.c
  *
- *  Created on: 25. tra 2026.
+ *  Created on: 13. svi 2026.
  *      Author: lars
  */
 
-#ifndef PLAY_H_
-#define PLAY_H_
+#include <limits.h>
+#include <dsk6713_led.h>
+#include <csl_stdinc.h>
+#include <include/play.h>
 
 #define GAIN 30000
 
 extern const int SAMPLE_RATE;
-int playedSound = FALSE;
+extern int playedSound;
 union {
     Uint32 uint;
     short channel[2];
@@ -55,5 +57,3 @@ void play(float (*sound)(int), int sampleCount, int repeat)
 
     playedSound = TRUE;
 }
-
-#endif /* PLAY_H_ */

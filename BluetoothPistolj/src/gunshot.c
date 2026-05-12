@@ -1,18 +1,14 @@
 /*
- * gunshot.h
+ * gunshot.c
  *
- *  Created on: 26. ožu 2026.
+ *  Created on: 12. svi 2026.
  *      Author: lars
  */
 
-#ifndef GUNSHOT_H_
-#define GUNSHOT_H_
+#include <include/gunshot.h>
+#include <include/iirsos.h>
+#include <stdlib.h>
 
-#include <limits.h>
-#include "iirsos.h"
-#include "play.h"
-
-#define GUNSHOT_SAMPLE_COUNT 9600
 #define ADSR_A_SAMPLE_COUNT 480
 #define ADSR_D_SAMPLE_COUNT 480
 #define ADSR_R_SAMPLE_COUNT 8640
@@ -20,9 +16,25 @@
 #define ADSR_D_STEP 0.001461377870564
 #define ADSR_R_STEP 0.000034722222222
 
+IIRFilter LPF_1000 = {
+    {
+         {-1.63299316E+00, 6.90598923E-01}
+    },
+    {
+         {1.44014403E-02, 2.88028807E-02, 1.44014403E-02}
+    },
+    {0}
+};
+IIRFilter LPF_500 = {
+    {
+         {-1.81534108E+00, 8.31005589E-01}
+    },
+    {
+         {3.91612666E-03, 7.83225332E-03, 3.91612666E-03}
+    },
+    {0}
+};
 float adsr = 0.0f;
-IIRFilter LPF_1000 = {a_1000, b_1000, NULL};
-IIRFilter LPF_500 = {a_500, b_500, NULL};
 
 float gunshot(IIRFilter* filter, int sampleIndex)
 {
@@ -69,5 +81,3 @@ float gunshotB(int sampleIndex)
 {
     return gunshot(&LPF_500, sampleIndex);
 }
-
-#endif /* GUNSHOT_H_ */
