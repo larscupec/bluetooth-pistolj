@@ -26,6 +26,12 @@ IIRFilter LPF_500 = {a_500, b_500, NULL};
 
 float gunshot(IIRFilter* filter, int sampleIndex)
 {
+    // Reset ADSR
+    if (sampleIndex == 0)
+    {
+        adsr = 0.0f;
+    }
+
     // Random number between -1 and 1
     float sample = -1 + 2 * (float) rand() / RAND_MAX;
 
@@ -49,12 +55,6 @@ float gunshot(IIRFilter* filter, int sampleIndex)
     {
         filteredSample *= adsr;
         adsr -= ADSR_R_STEP;
-    }
-
-    // Reset ADSR
-    if (sampleIndex == GUNSHOT_SAMPLE_COUNT - 1)
-    {
-        adsr = 0.0f;
     }
 
     return filteredSample;

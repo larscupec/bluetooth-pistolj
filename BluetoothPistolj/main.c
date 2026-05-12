@@ -75,7 +75,10 @@ void main(void)
 
         switch (pistolState)
         {
-        case 0: case 4: case 8: case 12:
+        case 0:
+        case 4:
+        case 8:
+        case 12:
             playedSound = FALSE;
             break;
         case 1:
