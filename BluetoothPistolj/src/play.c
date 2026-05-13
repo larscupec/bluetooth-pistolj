@@ -8,7 +8,7 @@
 #include <limits.h>
 #include <dsk6713_led.h>
 #include <csl_stdinc.h>
-#include <include/play.h>
+#include <play.h>
 
 #define GAIN 30000
 

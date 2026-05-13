@@ -5,9 +5,9 @@
  *      Author: lars
  */
 
-#ifndef INCLUDE_PLAY_H_
-#define INCLUDE_PLAY_H_
+#ifndef PLAY_H_
+#define PLAY_H_
 
 void play(float (*sound)(int), int sampleCount, int repeat, int led);
 
-#endif /* INCLUDE_PLAY_H_ */
+#endif /* PLAY_H_ */

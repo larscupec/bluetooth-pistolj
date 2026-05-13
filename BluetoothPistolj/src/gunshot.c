@@ -5,8 +5,8 @@
  *      Author: lars
  */
 
-#include <include/gunshot.h>
-#include <include/iirsos.h>
+#include <gunshot.h>
+#include <iirsos.h>
 #include <stdlib.h>
 
 #define ADSR_A_SAMPLE_COUNT 480

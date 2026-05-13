@@ -7,7 +7,7 @@
 
 #include <math.h>
 #include <csl_stdinc.h>
-#include <include/laser.h>
+#include <laser.h>
 
 #define M_PI (3.14159265358979323846264338327950288)
 #define F_START 2000.0

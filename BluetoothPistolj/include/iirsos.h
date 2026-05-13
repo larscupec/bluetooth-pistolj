@@ -5,8 +5,8 @@
  *      Author: lars
  */
 
-#ifndef INCLUDE_IIRSOS_H_
-#define INCLUDE_IIRSOS_H_
+#ifndef IIRSOS_H_
+#define IIRSOS_H_
 
 #define NUM_SECTIONS 1
 
@@ -35,4 +35,4 @@ float iirsos(float input, IIRFilter* filter)
     return yn;
 }
 
-#endif /* INCLUDE_IIRSOS_H_ */
+#endif /* IIRSOS_H_ */

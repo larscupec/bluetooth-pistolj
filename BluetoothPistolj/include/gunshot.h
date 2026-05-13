@@ -5,12 +5,12 @@
  *      Author: lars
  */
 
-#ifndef INCLUDE_GUNSHOT_H_
-#define INCLUDE_GUNSHOT_H_
+#ifndef GUNSHOT_H_
+#define GUNSHOT_H_
 
 #define GUNSHOT_SAMPLE_COUNT 9600
 
 float gunshotA(int sampleIndex);
 float gunshotB(int sampleIndex);
 
-#endif /* INCLUDE_GUNSHOT_H_ */
+#endif /* GUNSHOT_H_ */
