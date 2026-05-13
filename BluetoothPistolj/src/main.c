@@ -29,6 +29,10 @@ GPIO_Config GPIOCfg = { 0x00000000, /* gpgc */
 const unsigned int statePins = GPIO_PIN8 | GPIO_PIN9 | GPIO_PIN10 | GPIO_PIN11;
 const int SAMPLE_RATE = 24000;
 int playedSound = FALSE;
+#define LED_1 0
+#define LED_2 1
+#define LED_3 2
+#define LED_4 3
 
 void main(void)
 {
@@ -84,28 +88,28 @@ void main(void)
             playedSound = FALSE;
             break;
         case 1:
-            play(gunshotA, GUNSHOT_SAMPLE_COUNT, FALSE);
+            play(gunshotA, GUNSHOT_SAMPLE_COUNT, FALSE, LED_1);
             break;
         case 3:
-            play(gunshotA, GUNSHOT_SAMPLE_COUNT, TRUE);
+            play(gunshotA, GUNSHOT_SAMPLE_COUNT, TRUE, LED_1);
             break;
         case 5:
-            play(gunshotB, GUNSHOT_SAMPLE_COUNT, FALSE);
+            play(gunshotB, GUNSHOT_SAMPLE_COUNT, FALSE, LED_2);
             break;
         case 7:
-            play(gunshotB, GUNSHOT_SAMPLE_COUNT, TRUE);
+            play(gunshotB, GUNSHOT_SAMPLE_COUNT, TRUE, LED_2);
             break;
         case 9:
-            play(laserA, LASER_SAMPLE_COUNT, FALSE);
+            play(laserA, LASER_SAMPLE_COUNT, FALSE, LED_3);
             break;
         case 11:
-            play(laserA, LASER_SAMPLE_COUNT, TRUE);
+            play(laserA, LASER_SAMPLE_COUNT, TRUE, LED_3);
             break;
         case 13:
-            play(laserB, LASER_SAMPLE_COUNT, FALSE);
+            play(laserB, LASER_SAMPLE_COUNT, FALSE, LED_4);
             break;
         case 15:
-            play(laserB, LASER_SAMPLE_COUNT, TRUE);
+            play(laserB, LASER_SAMPLE_COUNT, TRUE, LED_4);
         }
     }
 }

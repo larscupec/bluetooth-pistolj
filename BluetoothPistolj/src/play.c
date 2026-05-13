@@ -19,14 +19,14 @@ union {
     short channel[2];
 } outputData;
 
-void play(float (*sound)(int), int sampleCount, int repeat)
+void play(float (*sound)(int), int sampleCount, int repeat, int led)
 {
     if (!repeat && playedSound)
     {
         return;
     }
 
-    DSK6713_LED_on(0);
+    DSK6713_LED_on(led);
 
     int sampleIndex;
 
@@ -53,7 +53,7 @@ void play(float (*sound)(int), int sampleCount, int repeat)
         output_sample(outputData.uint);
     }
 
-    DSK6713_LED_off(0);
+    DSK6713_LED_off(led);
 
     playedSound = TRUE;
 }
