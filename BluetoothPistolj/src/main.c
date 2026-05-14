@@ -8,7 +8,6 @@
 #include <csl_irq.h>
 /* Standard C libs */
 #include <stdlib.h>
-#include <time.h>
 /* sound effects */
 #include <gunshot.h>
 #include <laser.h>
@@ -33,6 +32,7 @@ int playedSound = FALSE;
 #define LED_2 1
 #define LED_3 2
 #define LED_4 3
+#define RAND_SEED 560
 
 void main(void)
 {
@@ -42,7 +42,7 @@ void main(void)
     hGpio = GPIO_open(GPIO_DEV0, GPIO_OPEN_RESET);
     GPIO_config(hGpio, &GPIOCfg);
 
-    srand(time(0));
+    srand(RAND_SEED);
 
     while (1)
     {
