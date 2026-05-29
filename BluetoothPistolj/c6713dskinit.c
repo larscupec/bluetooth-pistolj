@@ -1,6 +1,6 @@
 //C6713dskinit.c Includes functions from TI in the C6713 CSL and C6713DSK BSL
 
-#include <include/C6713dskinit.h>
+#include <C6713dskinit.h>
 #define using_bios                  //if BIOS don't use top of vector table
 extern Uint32 fs;            			//for sampling frequency
 extern Uint16 inputsource;            	//input source (MIC or LINE)

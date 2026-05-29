@@ -25,14 +25,10 @@ GPIO_Config GPIOCfg = { 0x00000000, /* gpgc */
                         0x00000000, /* gplm */
                         0x00000000 /* gppol */
 };
-const unsigned int statePins = GPIO_PIN8 | GPIO_PIN9 | GPIO_PIN10 | GPIO_PIN11;
 const int SAMPLE_RATE = 24000;
 int playedSound = FALSE;
-#define LED_1 0
-#define LED_2 1
-#define LED_3 2
-#define LED_4 3
-#define RAND_SEED 560
+#define STATE_PINS (GPIO_PIN8 | GPIO_PIN9 | GPIO_PIN10 | GPIO_PIN11)
+#define RAND_SEED 33
 
 void main(void)
 {
@@ -46,7 +42,7 @@ void main(void)
 
     while (1)
     {
-        unsigned int pistolState = GPIO_read(hGpio, statePins);
+        unsigned int pistolState = GPIO_read(hGpio, STATE_PINS);
 
         // Buduci da funkcija GPIO_read vraca stanje registra koje izgleda
         // npr. 1111 0000 0000, moramo pomaknuti bitove 8-11 na pocetak
@@ -88,28 +84,28 @@ void main(void)
             playedSound = FALSE;
             break;
         case 1:
-            play(gunshotA, GUNSHOT_SAMPLE_COUNT, FALSE, LED_1);
+            play(gunshotA, GUNSHOT_SAMPLE_COUNT, FALSE, 0);
             break;
         case 3:
-            play(gunshotA, GUNSHOT_SAMPLE_COUNT, TRUE, LED_1);
+            play(gunshotA, GUNSHOT_SAMPLE_COUNT, TRUE, 0);
             break;
         case 5:
-            play(gunshotB, GUNSHOT_SAMPLE_COUNT, FALSE, LED_2);
+            play(gunshotB, GUNSHOT_SAMPLE_COUNT, FALSE, 1);
             break;
         case 7:
-            play(gunshotB, GUNSHOT_SAMPLE_COUNT, TRUE, LED_2);
+            play(gunshotB, GUNSHOT_SAMPLE_COUNT, TRUE, 1);
             break;
         case 9:
-            play(laserA, LASER_SAMPLE_COUNT, FALSE, LED_3);
+            play(laserA, LASER_SAMPLE_COUNT, FALSE, 2);
             break;
         case 11:
-            play(laserA, LASER_SAMPLE_COUNT, TRUE, LED_3);
+            play(laserA, LASER_SAMPLE_COUNT, TRUE, 2);
             break;
         case 13:
-            play(laserB, LASER_SAMPLE_COUNT, FALSE, LED_4);
+            play(laserB, LASER_SAMPLE_COUNT, FALSE, 3);
             break;
         case 15:
-            play(laserB, LASER_SAMPLE_COUNT, TRUE, LED_4);
+            play(laserB, LASER_SAMPLE_COUNT, TRUE, 3);
         }
     }
 }
