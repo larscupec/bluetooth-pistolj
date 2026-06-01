@@ -1,5 +1,5 @@
 /*
- * iirsos.h
+ * iirsos.h - iir filter using cascaded second order sections
  *
  *  Created on: 26. ožu 2026.
  *      Author: lars

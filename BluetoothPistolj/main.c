@@ -1,7 +1,7 @@
 /* codec support */
 #include <dsk6713_aic23.h>
 /* LED */
-#include <dsk6713_led.h>
+// #include <dsk6713_led.h>
 /* GPIO */
 #include <csl_gpio.h>
 #include <csl_gpiohal.h>
@@ -13,9 +13,9 @@
 #include <laser.h>
 #include <play.h>
 
-Uint32 fs = DSK6713_AIC23_FREQ_24KHZ;
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 Uint32 inputsource = DSK6713_AIC23_INPUT_LINE;
+Uint32 fs = DSK6713_AIC23_FREQ_24KHZ;
 GPIO_Handle hGpio;
 GPIO_Config GPIOCfg = { 0x00000000, /* gpgc */
                         0x00000F00, /* gpen (set pins 8-11 as inputs) */
@@ -33,7 +33,7 @@ int playedSound = FALSE;
 void main(void)
 {
     comm_poll();
-    DSK6713_LED_init();
+    // DSK6713_LED_init();
 
     hGpio = GPIO_open(GPIO_DEV0, GPIO_OPEN_RESET);
     GPIO_config(hGpio, &GPIOCfg);

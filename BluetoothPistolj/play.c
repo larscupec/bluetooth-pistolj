@@ -6,7 +6,7 @@
  */
 
 #include <limits.h>
-#include <dsk6713_led.h>
+// #include <dsk6713_led.h>
 #include <csl_stdinc.h>
 #include <play.h>
 
@@ -26,7 +26,7 @@ void play(float (*sound)(int), int sampleCount, int repeat, int led)
         return;
     }
 
-    DSK6713_LED_on(led);
+    // DSK6713_LED_on(led);
 
     int sampleIndex;
 
@@ -53,7 +53,7 @@ void play(float (*sound)(int), int sampleCount, int repeat, int led)
         output_sample(outputData.uint);
     }
 
-    DSK6713_LED_off(led);
+    // DSK6713_LED_off(led);
 
     playedSound = TRUE;
 }
